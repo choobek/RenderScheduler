@@ -1,11 +1,11 @@
 # Initial Parameters
-WATCH_DIR = r'C:/Users/wojci/Desktop/batch'
-PROCESS_NAME = 'calc'
+WATCH_DIR = r'C:/Users/choob/Desktop/batch'
+PROCESS_NAME = 'hython'
 # GPU CHECK LISTING TIME (in seconds) = review_time * queue_iter
 REVIEW_TIME = 6
-QUEUE_ITER = 5
+QUEUE_ITER = 100
 #
-GPU_IDLE_LIMIT = 0.5
+GPU_IDLE_LIMIT = 0.4
 GPU_INIT_LIST = 1
 GPU_TO_MONITOR = 0
 
@@ -16,17 +16,24 @@ import time
 import GPUtil
 import math
 
-def setupRendering():
-    if utilities.checkIfProcessRunning(PROCESS_NAME)==False:
-        '''Setup whole rendering'''
-        print('Setup rendering...')
-        
-        parseFolder(WATCH_DIR)
+def checkFileCount():
+    # Close if there are no files to render
+    files = utilities.fileInDirectory(WATCH_DIR)
+    return len(files)
 
-        files = utilities.fileInDirectory(WATCH_DIR)
-        p = subprocess.run(WATCH_DIR+'/'+files[0], shell=True)
-    else:
-        utilities.cleanTheProcesses(PROCESS_NAME)
+def setupRendering():
+    if checkFileCount()>0:
+        if utilities.checkIfProcessRunning(PROCESS_NAME)==False:
+            '''Setup whole rendering'''
+            print('Setup rendering...')
+            
+            parseFolder(WATCH_DIR)
+
+            files = utilities.fileInDirectory(WATCH_DIR)
+            if files:
+                p = subprocess.run(WATCH_DIR+'/'+files[0], shell=True)
+        else:
+            utilities.cleanTheProcesses(PROCESS_NAME)
 
 def monitorProcess():
     running = True
@@ -55,11 +62,18 @@ def monitorProcess():
 
 
 while(True):
+
+
     # Setup first instance
     setupRendering()
 
+    # Check if there are files to schedule and break if not
+    if checkFileCount()==0: break
+
     # Monitor the rendering
     monitorProcess()
+
+
 
 
 
