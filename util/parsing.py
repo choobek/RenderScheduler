@@ -14,6 +14,7 @@ def getFrameRange(lines):
     for line in lines:
         if 'hython' in line:
             framerange = line.split("-f")[1].strip().split("-i")[0].strip().split()
+            framerange[:] = [s.split('.')[0] for s in framerange]
     return framerange
 
 def getFramePaths(lines, framerange):
