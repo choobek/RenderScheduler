@@ -7,8 +7,10 @@ def fillList(lst, list_length, init_val):
     return lst
 
 def fileInDirectory(watchDirectory: str):
-    from os import listdir
-    from os.path import isfile, join
+    from os import listdir, mkdir
+    from os.path import isfile, join, isdir
+    if isdir(watchDirectory)==False:
+        mkdir(watchDirectory)
     onlyfiles = [f for f in listdir(watchDirectory) if isfile(join(watchDirectory, f))]
     return(onlyfiles)
 
