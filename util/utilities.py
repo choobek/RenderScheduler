@@ -1,18 +1,18 @@
 def average(lst):
     return sum(lst) / len(lst)
 
-def fillList(lst, list_length, init_val):
+def fill_list(lst, list_length, init_val):
     for i in range(1, list_length+1):
         lst.append(init_val)
     return lst
 
-def fileInDirectory(watchDirectory: str):
-    from os import listdir, mkdir
-    from os.path import isfile, join, isdir
-    if isdir(watchDirectory)==False:
-        mkdir(watchDirectory)
-    onlyfiles = [f for f in listdir(watchDirectory) if isfile(join(watchDirectory, f))]
-    return(onlyfiles)
+def file_in_directory(watchdir: str):
+        from os import listdir, mkdir
+        from os.path import isfile, join, isdir
+        if isdir(watchdir)==False:
+                mkdir(watchdir)
+        onlyfiles = [f for f in listdir(watchdir) if isfile(join(watchdir, f))]
+        return(onlyfiles)
 
 
 def checkIfProcessRunning(processName):
